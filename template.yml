@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  GetAllItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/
+      Handler: /handlers/get_all_items.getAllItemsHandler
+      Runtime: python3.10
+      MemorySize: 128
+      Timeout: 100
