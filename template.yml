@@ -5,7 +5,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src/
-      Handler: /handlers/get_all_items.getAllItemsHandler
+      Handler: handlers/get_all_items.getAllItemsHandler
       Runtime: python3.10
       MemorySize: 128
       Timeout: 100
