@@ -7,3 +7,4 @@ class test_dynamo(TestCase):
     """
     def test_connection(self):
         self.assertTrue(dynamo_connect())
+        return 
