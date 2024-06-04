@@ -1,0 +1,78 @@
+{
+    "id": {
+        "N": "1"
+    },
+    "user_name": {
+        "S": "user"
+    },
+    "user": {
+        "M": {
+            "name": {
+                "S": "rudy"
+            },
+            "rights": {
+                "L": [
+                    "admin",
+                    "user"
+                ]
+            }
+        }
+    },
+    "tasks": {
+        "L": [
+            {
+                "id": {
+                    "N": "1"
+                },
+                "title": {
+                    "S": "prueba"
+                },
+                "completed": {
+                    "B": false
+                }
+            },
+            {
+                "id": {
+                    "N": "2"
+                },
+                "title": {
+                    "S": "prueba2"
+                },
+                "completed": {
+                    "B": true
+                }
+            },
+            {
+                "id": {
+                    "N": "3"
+                },
+                "title": {
+                    "S": "prueba3"
+                },
+                "completed": {
+                    "B": false
+                },
+                "list": {
+                    "L": [
+                        {
+                            "name": {
+                                "S": "rudy"
+                            },
+                            "age": {
+                                "N": "19"
+                            }
+                        },
+                        {
+                            "name": {
+                                "S": "Alonso"
+                            },
+                            "age": {
+                                "N": "21"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
