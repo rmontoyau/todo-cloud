@@ -4,7 +4,7 @@ cd ./src
 python -m unittest discover -s test
 
 if [ $? -ne 0 ]; then
- echo “unit tests failed”
+ echo "unit tests failed"
  exit 1
 fi
 

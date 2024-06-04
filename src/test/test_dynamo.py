@@ -1,10 +1,32 @@
+from moto import mock_dynamodb
 from unittest import TestCase
-from lib.dynamo import dynamo_connect
-
-class test_dynamo(TestCase):
-    """
-    Test the dynamo connection
-    """
-    def test_connection(self):
-        self.assertTrue(dynamo_connect())
-        return 
+from lib.db.todo_db import TodoDB
+import os
+@mock_dynamodb
+class TestDynamoDB(TestCase):
+    def setUp(self) -> None:
+        os.environ["ENVIRONMENT"] = "test"
+        self.todo = TodoDB()
+   
+    def test_add_todo(self):
+        data = {
+            "id" : "1",
+            "user_name": "user 1",
+            "is_active": True
+        }
+        todo = self.todo.add(data)
+        assert todo["ResponseMetadata"]["HTTPStatusCode"] == 200
+    
+    def test_get_todo(self):
+        data = {
+            "id" : "1",
+            "user_name": "user 1",
+            "is_active": True
+        }
+        todo = self.todo.add(data)
+        data = {
+            "id": "1",
+            "user_name": "user 1",
+        }
+        todo = self.todo.get(data)
+        assert todo["user_name"] == "user 1"
