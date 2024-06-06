@@ -1,0 +1,12 @@
+{
+"id": {"S": "1" },
+"is_active": {"BOOL": true}, 
+"user_name": {"S": "user 1"}, 
+"tasks": {"L": [
+            {"id": {"S": "task_1"}, 
+            "descripcion": {"S": "add a new task"}, 
+            "status": {"S": "pending"}
+            }
+        ]
+    }
+}

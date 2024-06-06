@@ -13,6 +13,7 @@ data = {
         "rights" : ["admin", "user"],
         "tasks": [1,2,3]
     },
+    "users": [],
     "tasks": [
         {
             "id": 1,
@@ -42,25 +43,27 @@ data = {
     ]
 
 }
-serialized = {"id": {"N": "1"}, "user_name": {"S": "user"}, 
-              "user": {"M": {"name": {"S": "rudy"}, "rights": {"SS": ["admin", "user"]}, "tasks": {"NS": ["1", "2", "3"]}}}, 
-              "tasks": {"L": [{"id": {"N": "1"}, "title": {"S": "prueba"}, "completed": {"BOOL": False}}, 
-                              {"id": {"N": "2"}, "title": {"S": "prueba2"}, "completed": {"BOOL": True}}, 
-                              {"id": {"N": "3"}, "title": {"S": "prueba3"}, "completed": {"BOOL": False}, 
-                        "list": {"L": [{"name": {"S": "rudy"}, "age": {"N": "19"}}, {"name": {"S": "Alonso"}, "age": {"N": "21"}}]}}]}}
 
+              
+data2 = {"tasks": [{"id": "task_1", "descripcion": "add a new task", "status": "pending"},
+                   {"id": "task_2", "descripcion": "add a new task 2", "status": "pending"}]}
 def serialize(json_data):
     if type(json_data) is dict:
         for item, value in json_data.items():
+
             if type(value) is dict:
                 json_data[item] = {"M" : serialize(value)}
             if type(value) is list:
+                if value == []:
+                    json_data[item] = {"L" : []}
+                    continue
                 if type(value[0]) is dict:
-                    json_data[item] = {"L" : serialize(value)}
+                   json_data[item] = {"L" : serialize(value)}
                 elif type(value[0]) is str:
                     json_data[item] = {"SS" : value}
                 else:
                     json_data[item] = {"NS" : list(map(lambda x: str(x),value))}
+                
             if type(value) is str:
                 json_data[item] = {"S" : value}
             if type(value) is int:
@@ -69,10 +72,11 @@ def serialize(json_data):
                 json_data[item] = {"BOOL" : value}
     if type(json_data) is list:
         for i, item in enumerate(json_data):
-            json_data[i] = serialize(item)     
+            json_data[i] = {"M" : serialize(item)}
     return json_data
 
 def deserialize(dynamo_data):
+    
     if type(dynamo_data) is dict:
         for item, value in dynamo_data.items():
             if type(value) is dict:
@@ -93,11 +97,13 @@ def deserialize(dynamo_data):
            
     if type(dynamo_data) is list:
         for i, item in enumerate(dynamo_data):
-            dynamo_data[i] = deserialize(item)
+            print(item["M"])
+            dynamo_data[i] = deserialize(item["M"]) if "M" in item.keys() else deserialize(item)
     return dynamo_data
 
-#result = serialize(data)
-#print(json.dumps(result))
+result = serialize(data2)
+print(json.dumps(result))
 
-des = deserialize(serialized)
+des = deserialize(result)
 print(json.dumps(des))
+
